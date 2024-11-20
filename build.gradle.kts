@@ -37,3 +37,18 @@ kotlin {
 tasks.withType<Test> {
     useJUnitPlatform()
 }
+
+tasks.jar {
+    archiveBaseName.set("app")  // Set the JAR file name to app.jar
+    manifest {
+        attributes["Main-Class"] = "com.geneses.cartservice.CartServiceApplicationKt" // Replace with your main class
+    }
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE // Add this if you encounter duplicate files error
+    from(sourceSets.main.get().output) {
+        exclude("META-INF/*.SF", "META-INF/*.DSA", "META-INF/*.RSA")
+    }
+    dependsOn(configurations.runtimeClasspath)
+    from({
+        configurations.runtimeClasspath.get().filter { it.exists() }.map { if (it.isDirectory) it else zipTree(it) }
+    })
+}
