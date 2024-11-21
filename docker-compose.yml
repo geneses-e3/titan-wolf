@@ -1,19 +1,19 @@
-version: "3.9"  # Or your preferred version
+version: "3.9"
 
 services:
   mongodb-e3:
     image: mongo:latest
-    container_name: mongodb-e3  #  Important: keep the container name consistent
+    container_name: mongodb-e3
     ports:
-      - "27018:27017" # If you started it originally with 27018 published on host, change if necessary.
+      - "27018:27017"
     networks:
       - mynetwork
 
   cart-service:
     build:
-      context: . # Or the path to your cart-service Dockerfile
-      dockerfile: Dockerfile  # Or the name of your Dockerfile if different
-    image: cart-service:latest # Optional: Specify the image name explicitly to improve clarity 
+      context: .
+      dockerfile: Dockerfile
+    image: cart-service:latest
     ports:
       - "8080:8080"
     depends_on:
@@ -23,5 +23,3 @@ services:
 
 networks:
   mynetwork:
-    # Driver is optional if using default bridge network.
-    # driver: bridge
